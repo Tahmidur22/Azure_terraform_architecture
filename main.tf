@@ -1,16 +1,3 @@
-terraform {
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = ">= 2.0"
-    }
-  }
-}
-
-provider "azurerm" {
-  features {}
-}
-
 module "general_module" {
     source= "./modules /general"
     resource_group_name = local.resource_group_name
