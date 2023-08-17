@@ -19,13 +19,14 @@ resource "azurerm_subnet" "subnets" {
     name                 = each.key
     resource_group_name  = var.resource_group_name
     virtual_network_name = var.virtual_network_name
-    address_prefixes     = [cidrsubnet(var.virtual_network_address_space,8,0)]
+    address_prefixes     = [cidrsubnet(var.virtual_network_address_space,8,index(tolist(var.subnet_names),each.key))]
     depends_on = [ 
         azurerm_virtual_network.network 
     ]
 }
 
 resource "azurerm_subnet" "bastionsubnet" {
+    count = var.bastion_required ? 1 : 0 
     name = "AzureBastionSubnet"
     resource_group_name  = var.resource_group_name
     virtual_network_name = var.virtual_network_name
@@ -36,6 +37,7 @@ resource "azurerm_subnet" "bastionsubnet" {
 }
 
 resource "azurerm_public_ip" "bastionip" {
+    count = var.bastion_required ? 1 : 0 
     name = "bastion-ip"
     resource_group_name  = var.resource_group_name
     location = var.location
@@ -47,14 +49,15 @@ resource "azurerm_public_ip" "bastionip" {
 }
 
 resource "azurerm_bastion_host" "appbastion" {
+    count = var.bastion_required ? 1 : 0 
     name = "appbastion"
     resource_group_name  = var.resource_group_name
     location = var.location
 
     ip_configuration {
       name = "configuration"
-      subnet_id = azurerm_subnet.bastionsubnet.id
-      public_ip_address_id = azurerm_public_ip.bastionip.id
+      subnet_id = azurerm_subnet.bastionsubnet[0].id
+      public_ip_address_id = azurerm_public_ip.bastionip[0].id
     }
 }
 

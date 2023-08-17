@@ -11,4 +11,5 @@ module "networking_module" {
     virtual_network_name = "staging-network"
     virtual_network_address_space = "10.0.0.0/16"
     subnet_names = ["web-subnet", "db-subnet"]
+    bastion_required = true
 }
