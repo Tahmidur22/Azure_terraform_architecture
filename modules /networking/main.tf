@@ -61,3 +61,23 @@ resource "azurerm_bastion_host" "appbastion" {
     }
 }
 
+resource "azurerm_network_security_group" "nsg" {
+    for_each=var.network-security_group_names
+    name                = each.key
+    location            = var.location
+    resource_group_name = var.resource_group_name
+    depends_on = [  
+        azurerm_virtual_network.network
+    ] 
+}
+
+resource "azurem_subnet_network_security_group_association" "nsg-link" {
+    for_each = var.network-security_group_names
+    subnet_id                 = azurerm_subnet.subnets[each.value].id
+    network_security_group_id = azurerm_network_security_group.nsg[each.key].id 
+    depends_on = [
+        azurerm_virtual_network.network,
+        azurerm_network_security_group.nsg
+    ]
+}
+

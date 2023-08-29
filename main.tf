@@ -12,4 +12,8 @@ module "networking_module" {
     virtual_network_address_space = "10.0.0.0/16"
     subnet_names = ["web-subnet", "db-subnet"]
     bastion_required = true
+    network-security_group_names={
+        "web-nsg"="web-subnet"
+        "db-nsg"="db-subnet"
+    }
 }

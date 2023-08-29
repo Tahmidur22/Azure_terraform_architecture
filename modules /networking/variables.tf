@@ -29,3 +29,8 @@ variable "bastion_required" {
   type        = bool
   default = false
 }
+
+variable network-security_group_names {
+  description = "This defines the names of the network security groups"
+  type        = set(string)
+}
