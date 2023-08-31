@@ -34,3 +34,8 @@ variable network-security_group_names {
   description = "This defines the names of the network security groups"
   type        = set(string)
 }
+
+variable "network_security_group_rules" {
+  description = "This defines the network security group rules"
+  type=list()
+}
