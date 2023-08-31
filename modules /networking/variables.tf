@@ -37,5 +37,5 @@ variable network-security_group_names {
 
 variable "network_security_group_rules" {
   description = "This defines the network security group rules"
-  type=list()
+  type=list
 }
