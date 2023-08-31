@@ -81,3 +81,21 @@ resource "azurem_subnet_network_security_group_association" "nsg-link" {
     ]
 }
 
+resource "azurerm_network_security_rule" "nsgrules" {
+    for_each={for rule in var.network_security_group_rules:rule.id => rule}
+    name                        = "${each.value.access}-${each.value.destination_port_range}"
+    priority                    = each.value.priority
+    direction                   = "Inbound"
+    access                      = each.value.access
+    protocol                    = "Tcp"
+    source_port_range           = "*"
+    destination_port_range      = each.value.destination_port_range
+    source_address_prefix       = "*"
+    destination_address_prefix  = "*"
+    resource_group_name         = var.resource_group_name
+    network_security_group_name = azurerm_network_security_group.nsg[each.value.network_security_group_name].name
+    depends_on = [ 
+        module.general_module.resource_group,
+        azurerm_network_security_group.nsg
+    ]
+}
