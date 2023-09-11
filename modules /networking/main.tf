@@ -71,15 +71,15 @@ resource "azurerm_network_security_group" "nsg" {
     ] 
 }
 
-resource "azurem_subnet_network_security_group_association" "nsg-link" {
-    for_each = var.network-security_group_names
-    subnet_id                 = azurerm_subnet.subnets[each.value].id
-    network_security_group_id = azurerm_network_security_group.nsg[each.key].id 
-    depends_on = [
-        azurerm_virtual_network.network,
-        azurerm_network_security_group.nsg
-    ]
-}
+# resource "azurem_subnet_network_security_group_association" "nsg-link" {
+#     for_each=var.network-security_group_names
+#     subnet_id                 = azurerm_subnet.subnets[each.value].id
+#     network_security_group_id = azurerm_network_security_group.nsg[each.key].id 
+#     depends_on = [
+#         azurerm_virtual_network.network,
+#         azurerm_network_security_group.nsg
+#     ]
+# }
 
 resource "azurerm_network_security_rule" "nsgrules" {
     for_each={for rule in var.network_security_group_rules:rule.id => rule}
