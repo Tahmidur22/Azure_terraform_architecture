@@ -24,3 +24,32 @@ resource "azurerm_public_ip" "webip" {
     allocation_method = "Static"
   
 }
+
+data "azurerm_shared_image" "webimage" {
+  name                = "webimage"
+  gallery_name        = "gallery"
+  resource_group_name = "new-grp"
+}
+
+resource "azurerm_virtual_machine" "webvm" {
+  name                  = "webvm"
+  location              = local.location
+  resource_group_name   = local.resource_group_name
+  network_interface_ids = [azurerm_network_interface.webinterface.id]
+  vm_size               = "Standard_D2s_v3"
+
+  storage_image_reference {
+   id = data.azurerm_shared_image.webimage.id
+  }
+  storage_os_disk {
+    name              = "myosdisk1"
+    caching           = "ReadWrite"
+    create_option     = "FromImage"
+    managed_disk_type = "Standard_LRS"
+  }
+
+  depends_on = [ 
+    azurerm_network_interface.webinterface,
+    module.general_module.resourcegroup
+    ]
+}

@@ -1,3 +1,3 @@
-output "vm-rg1" {
+output "resourcegroup" {
   value = azurerm_resource_group.vm-rg1
 }
