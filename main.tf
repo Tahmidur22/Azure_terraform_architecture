@@ -46,3 +46,11 @@ module "networking_module" {
         access = "Allow"
     }]
 }
+
+module "compute_module" {
+    source = "./modules /compute"
+    resource_group_name = local.resource_group_name
+    location = local.location
+    network_interface_name = "db-interface"
+    subnet_id=module.networking_module.subnets["db-subnet"].id
+}
