@@ -35,3 +35,23 @@ variable "public_ip_required" {
   description="This defines the public ip address"  
   default = false
 }
+
+variable "virtual_machine_name" {
+  type=string
+  description = "This defines the virtual machine"
+}
+
+variable "admin_username" {
+  type=string
+  description = "This defines the admin user name for the virtual machine"
+}
+
+variable "admin_password" {
+  type=string
+  description = "This defines the admin password for the virtual machine"
+}
+
+variable "source_image_reference" {
+  type=map
+  description = "This defines the source image reference for the virtual machine"
+}

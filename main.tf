@@ -53,4 +53,25 @@ module "compute_module" {
     location = local.location
     network_interface_name = "db-interface"
     subnet_id=module.networking_module.subnets["db-subnet"].id
+    virtual_machine_name="dbvm"
+    admin_username = "dbuser"
+    admin_password = "AzureDB@Pass"
+    source_image_reference = {
+        publisher = "MicrosoftSQLServer"
+        offer     = "sql2019-ws2019"
+        sku       = "sqldev"
+        version   = "latest"
+    }
+    depends_on = [ 
+        module.networking_module 
+    ]
+}
+
+resource "azurerm_mssql_virtual_machine" "mssqlvm" {
+  virtual_machine_id               = module.compute_module.vm.id
+  sql_license_type                 = "PAYG"
+  sql_connectivity_port            = 1433
+  sql_connectivity_type            = "PRIVATE"
+  sql_connectivity_update_password = "Azure@12!"
+  sql_connectivity_update_username = "sqladmin"
 }

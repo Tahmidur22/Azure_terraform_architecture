@@ -21,7 +21,7 @@ resource "azurerm_public_ip" "webip" {
   name                = "web-ip"
   resource_group_name = local.resource_group_name
   location            = local.location 
-  domain_name_label = "webvm"
+  domain_name_label = "webvm2023"
   allocation_method   = "Static"
   depends_on = [
     module.general_module
