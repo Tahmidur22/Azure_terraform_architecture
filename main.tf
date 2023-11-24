@@ -1,11 +1,11 @@
 module "general_module" {
-    source= "./modules /general"
+    source= "./modules/general"
     resource_group_name = local.resource_group_name
     location = local.location
 }
 
 module "networking_module" {
-    source="./modules /networking"
+    source="./modules/networking"
     resource_group_name = local.resource_group_name
     location = local.location
     virtual_network_name = "staging-network"
@@ -48,7 +48,7 @@ module "networking_module" {
 }
 
 module "compute_module" {
-    source = "./modules /compute"
+    source = "./modules/compute"
     resource_group_name = local.resource_group_name
     location = local.location
     network_interface_name = "db-interface"

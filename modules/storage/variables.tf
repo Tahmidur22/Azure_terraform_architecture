@@ -23,3 +23,7 @@ variable "container_access" {
   description = "This defines the container access level"
   default = "private"
 }
+variable "blobs" {
+  type=map
+  description = "This defines the blobs to be added"
+}

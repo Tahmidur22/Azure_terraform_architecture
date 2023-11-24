@@ -16,12 +16,13 @@ resource "azurerm_storage_container" "container" {
     ]
 }
 
-resource "azurerm_storage_blob" "example" {
-  name                   = "main.tf"
+resource "azurerm_storage_blob" "blob" {
+  for_each = var.blobs
+  name                   = each.key
   storage_account_name   = var.storage_account_name
   storage_container_name = var.container_name
   type                   = "Block"
-  source                 = "main.tf"
+  source                 = "${each.value}${each.key}"
   depends_on = [
     azurerm_storage_container.container 
     ]
